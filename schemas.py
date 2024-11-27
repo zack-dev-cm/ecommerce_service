@@ -1,4 +1,4 @@
-# schemas.py
+# schemas.py 
 from pydantic import BaseModel
 from typing import List, Dict, Optional
 from datetime import datetime
@@ -68,4 +68,15 @@ class SupplierResponse(BaseModel):
     class Config:
         orm_mode = True
 
+# User Schemas
+class UserCreate(BaseModel):
+    username: str
+    password: str
+
+class UserResponse(BaseModel):
+    id: int
+    username: str
+
+    class Config:
+        orm_mode = True
 

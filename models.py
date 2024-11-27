@@ -1,8 +1,28 @@
 # models.py
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Table
 from sqlalchemy.orm import relationship
 from database import Base
 from datetime import datetime
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True, nullable=False)
+    hashed_password = Column(String, nullable=False)
+    # Additional fields can be added as needed
+
+    favorites = relationship("Favorite", back_populates="user")
+
+class Favorite(Base):
+    __tablename__ = "favorites"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    product_id = Column(Integer, ForeignKey("products.id"))
+
+    user = relationship("User", back_populates="favorites")
+    product = relationship("Product")
 
 class Product(Base):
     __tablename__ = "products"
